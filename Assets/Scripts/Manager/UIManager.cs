@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-// UI²Ëµ¥Êı¾İ
+// UIèœå•æ•°æ®
 [System.Serializable]
 public struct MenuData
 {
-    // ²Ëµ¥Ãû³Æ
+    // èœå•åç§°
     public string Name;
 
-    // UI²Ëµ¥¶ÔÏó
+    // UIèœå•å¯¹è±¡
     public GameObject Menu;
 }
 
-// UI²Ëµ¥¹ÜÀíÆ÷
+// UIèœå•ç®¡ç†å™¨
 public class UIManager : MonoBehaviour
 {
-    // UI¹ÜÀíÆ÷µ¥Àı
+    // UIç®¡ç†å™¨å•ä¾‹
     public static UIManager Instance { get; private set; }
 
-    // ¿ÉÔÚÃæ°åÅäÖÃµÄ²Ëµ¥ÁĞ±í
+    // å¯åœ¨é¢æ¿é…ç½®çš„èœå•åˆ—è¡¨
     public List<MenuData> MenuList = new List<MenuData>();
 
-    // ÓÃÓÚ¼ÇÂ¼ÒÑ´ò¿ª²Ëµ¥µÄÕ»
+    // ç”¨äºè®°å½•å·²æ‰“å¼€èœå•çš„æ ˆ
     private readonly Stack<MenuData> _menuStack = new Stack<MenuData>();
 
-    // È«¾ÖÓÎÏ·×´Ì¬ĞÅÏ¢¶ÔÏó
+    // å…¨å±€æ¸¸æˆçŠ¶æ€ä¿¡æ¯å¯¹è±¡
     public static GameInfo gameInfo;
 
-    // ³õÊ¼»¯µ¥Àı²¢ÇåÀíÖØ¸´¶ÔÏó
+    // åˆå§‹åŒ–å•ä¾‹å¹¶æ¸…ç†é‡å¤å¯¹è±¡
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -46,10 +46,10 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        OpenMenu("Ö÷²Ëµ¥");
+        OpenMenu("ä¸»èœå•");
     }
 
-    // Ïú»ÙÊ±Çå³ıµ¥ÀıÒıÓÃ
+    // é”€æ¯æ—¶æ¸…é™¤å•ä¾‹å¼•ç”¨
     private void OnDestroy()
     {
         if (Instance == this)
@@ -58,11 +58,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /// <summary>´ò¿ªÖ¸¶¨Ãû³ÆµÄUI²Ëµ¥¡£</summary>
-    /// <param name="name">Òª´ò¿ªµÄ²Ëµ¥Ãû³Æ</param>
+    /// <summary>æ‰“å¼€æŒ‡å®šåç§°çš„UIèœå•ã€‚</summary>
+    /// <param name="name">è¦æ‰“å¼€çš„èœå•åç§°</param>
     public void OpenMenu(string name)
     {
-        bool isReload = name == "this"; // ÊÇ·ñÖØĞÂ¼ÓÔØµ±Ç°²Ëµ¥
+        bool isReload = name == "this"; // æ˜¯å¦é‡æ–°åŠ è½½å½“å‰èœå•
         if (isReload)
         {
             if (_menuStack.Count == 0)
@@ -73,14 +73,14 @@ public class UIManager : MonoBehaviour
             name = _menuStack.Peek().Name;
         }
 
-        // ²éÕÒÃû³ÆÆ¥ÅäµÄ²Ëµ¥
+        // æŸ¥æ‰¾åç§°åŒ¹é…çš„èœå•
         int index = MenuList.FindIndex(menuData => menuData.Name == name);
         if (index < 0)
         {
             return;
         }
 
-        // »ñÈ¡Òª´ò¿ªµÄ²Ëµ¥Êı¾İ
+        // è·å–è¦æ‰“å¼€çš„èœå•æ•°æ®
         MenuData menuData = MenuList[index];
         if (menuData.Menu == null)
         {
@@ -89,24 +89,24 @@ public class UIManager : MonoBehaviour
 
         if (isReload)
         {
-            MenuData currentMenu = _menuStack.Pop(); // µ±Ç°ÒÑ´ò¿ªµÄ²Ëµ¥
+            MenuData currentMenu = _menuStack.Pop(); // å½“å‰å·²æ‰“å¼€çš„èœå•
             Destroy(currentMenu.Menu);
         }
 
-        // ÏÈÍ£ÓÃµ±Ç°Õ»¶¥²Ëµ¥
+        // å…ˆåœç”¨å½“å‰æ ˆé¡¶èœå•
         if (_menuStack.Count > 0)
         {
             _menuStack.Peek().Menu.SetActive(false);
         }
 
-        // ÊµÀı»¯²Ëµ¥²¢¼ÇÂ¼µ½Õ»ÖĞ
+        // å®ä¾‹åŒ–èœå•å¹¶è®°å½•åˆ°æ ˆä¸­
         menuData.Menu = Instantiate(menuData.Menu);
         menuData.Menu.SetActive(true);
         _menuStack.Push(menuData);
-        AudioManager.Instance.PlaySfx("°´Å¥µã»÷");
+        AudioManager.Instance.PlaySfx("æŒ‰é’®ç‚¹å‡»");
     }
 
-    /// <summary>Ïú»Ùµ±Ç°²Ëµ¥²¢·µ»ØÉÏÒ»²ã²Ëµ¥¡£</summary>
+    /// <summary>é”€æ¯å½“å‰èœå•å¹¶è¿”å›ä¸Šä¸€å±‚èœå•ã€‚</summary>
     public void GoBack()
     {
         if (_menuStack.Count == 0)
@@ -114,11 +114,11 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        // Ïú»Ù²¢ÒÆ³ıÕ»¶¥²Ëµ¥
+        // é”€æ¯å¹¶ç§»é™¤æ ˆé¡¶èœå•
         MenuData menuData = _menuStack.Pop();
         Destroy(menuData.Menu);
 
-        // ¼¤»îĞÂµÄÕ»¶¥²Ëµ¥
+        // æ¿€æ´»æ–°çš„æ ˆé¡¶èœå•
         if (_menuStack.Count > 0)
         {
             _menuStack.Peek().Menu.SetActive(true);

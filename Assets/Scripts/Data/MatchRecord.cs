@@ -6,54 +6,54 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-// ¶Ô¾Ö¼ÇÂ¼µÄ±£´æÓë¶ÁÈ¡¹¤¾ß
+// å¯¹å±€è®°å½•çš„ä¿å­˜ä¸è¯»å–å·¥å…·
 public static class MatchRecord
 {
-    // ĞòÁĞ»¯ºóµÄÕû³¡¶Ô¾ÖÊı¾İ
+    // åºåˆ—åŒ–åçš„æ•´åœºå¯¹å±€æ•°æ®
     [Serializable]
     private class MatchData
     {
-        // ¶Ô¾ÖÖĞµÄËùÓĞÆåÅÌ×´Ì¬
+        // å¯¹å±€ä¸­çš„æ‰€æœ‰æ£‹ç›˜çŠ¶æ€
         public List<BoardData> boards = new List<BoardData>();
     }
 
-    // ¿ÉĞòÁĞ»¯µÄÆåÅÌ×´Ì¬
+    // å¯åºåˆ—åŒ–çš„æ£‹ç›˜çŠ¶æ€
     [Serializable]
     private class BoardData
     {
-        // ÆåÅÌĞĞÊı
+        // æ£‹ç›˜è¡Œæ•°
         public int rows;
 
-        // ÆåÅÌÁĞÊı
+        // æ£‹ç›˜åˆ—æ•°
         public int columns;
 
-        // °´ĞĞÕ¹¿ªµÄÆå×ÓÊı¾İ
+        // æŒ‰è¡Œå±•å¼€çš„æ£‹å­æ•°æ®
         public int[] pieces;
 
-        // µ±Ç°ÊÇ·ñÂÖµ½ºì·½
+        // å½“å‰æ˜¯å¦è½®åˆ°çº¢æ–¹
         public bool isRed;
     }
 
-    // ±£´æÄ¿Â¼Ãû³Æ
+    // ä¿å­˜ç›®å½•åç§°
     private const string SaveFolderName = "save";
 
-    // ½«¶Ô¾ÖÆåÅÌĞòÁĞ»¯²¢±£´æµ½ÒÔµ±Ç°Ê±¼äÃüÃûµÄÎÄ¼ş
+    // å°†å¯¹å±€æ£‹ç›˜åºåˆ—åŒ–å¹¶ä¿å­˜åˆ°ä»¥å½“å‰æ—¶é—´å‘½åçš„æ–‡ä»¶
     public static void WriterMatch(List<Board> boards)
     {
         if (boards == null)
         {
-            Debug.LogError("±£´æ¶Ô¾ÖÊ§°Ü£ºÆåÅÌ¼ÇÂ¼Îª¿Õ¡£");
+            Debug.LogError("ä¿å­˜å¯¹å±€å¤±è´¥ï¼šæ£‹ç›˜è®°å½•ä¸ºç©ºã€‚");
             return;
         }
 
-        // ¶Ô¾ÖÎÄ¼şµÄ±£´æÄ¿Â¼
+        // å¯¹å±€æ–‡ä»¶çš„ä¿å­˜ç›®å½•
         string directory = Path.Combine(Application.persistentDataPath, SaveFolderName);
 
         try
         {
             Directory.CreateDirectory(directory);
 
-            // ´ıĞ´ÈëÎÄ¼şµÄ¶Ô¾ÖÊı¾İ
+            // å¾…å†™å…¥æ–‡ä»¶çš„å¯¹å±€æ•°æ®
             MatchData matchData = new MatchData();
             foreach (Board board in boards)
             {
@@ -62,11 +62,11 @@ public static class MatchRecord
                     continue;
                 }
 
-                // µ±Ç°ÆåÅÌµÄĞĞÊı
+                // å½“å‰æ£‹ç›˜çš„è¡Œæ•°
                 int rows = board.board.GetLength(0);
-                // µ±Ç°ÆåÅÌµÄÁĞÊı
+                // å½“å‰æ£‹ç›˜çš„åˆ—æ•°
                 int columns = board.board.GetLength(1);
-                // Õ¹¿ªºóµÄÆå×ÓÊı¾İ
+                // å±•å¼€åçš„æ£‹å­æ•°æ®
                 int[] pieces = new int[rows * columns];
                 for (int row = 0; row < rows; row++)
                 {
@@ -85,29 +85,29 @@ public static class MatchRecord
                 });
             }
 
-            // Ê¹ÓÃÄêÔÂÈÕºÍÊ±·ÖÃëºÁÃë×é³ÉºÏ·¨ÎÄ¼şÃû
+            // ä½¿ç”¨å¹´æœˆæ—¥å’Œæ—¶åˆ†ç§’æ¯«ç§’ç»„æˆåˆæ³•æ–‡ä»¶å
             string fileName = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff", CultureInfo.InvariantCulture) + ".json";
-            // ¶Ô¾ÖÎÄ¼şµÄÍêÕûÂ·¾¶
+            // å¯¹å±€æ–‡ä»¶çš„å®Œæ•´è·¯å¾„
             string filePath = Path.Combine(directory, fileName);
-            // ĞòÁĞ»¯ºóµÄ¶Ô¾ÖÎÄ±¾
+            // åºåˆ—åŒ–åçš„å¯¹å±€æ–‡æœ¬
             string json = JsonUtility.ToJson(matchData);
             File.WriteAllText(filePath, json, new UTF8Encoding(false));
-            Debug.Log($"±£´æ¶Ô¾Ö³É¹¦£¡ÎÄ¼şÂ·¾¶£º{filePath}");
+            Debug.Log($"ä¿å­˜å¯¹å±€æˆåŠŸï¼æ–‡ä»¶è·¯å¾„ï¼š{filePath}");
         }
         catch (Exception exception)
         {
-            Debug.LogError("±£´æ¶Ô¾ÖÊ§°Ü£º" + exception.Message);
+            Debug.LogError("ä¿å­˜å¯¹å±€å¤±è´¥ï¼š" + exception.Message);
         }
     }
 
-    // »ñÈ¡±£´æÄ¿Â¼ÖĞËùÓĞ¶Ô¾ÖÎÄ¼şµÄÃû³Æ£¨²»º¬À©Õ¹Ãû£©
+    // è·å–ä¿å­˜ç›®å½•ä¸­æ‰€æœ‰å¯¹å±€æ–‡ä»¶çš„åç§°ï¼ˆä¸å«æ‰©å±•åï¼‰
     public static List<string> ReadLibrary
     {
         get
         {
-            // ¶Ô¾ÖÎÄ¼şÁĞ±í
+            // å¯¹å±€æ–‡ä»¶åˆ—è¡¨
             List<string> names = new List<string>();
-            // ¶Ô¾ÖÎÄ¼şµÄ±£´æÄ¿Â¼
+            // å¯¹å±€æ–‡ä»¶çš„ä¿å­˜ç›®å½•
             string directory = Path.Combine(Application.persistentDataPath, SaveFolderName);
             if (!Directory.Exists(directory))
             {
@@ -116,7 +116,7 @@ public static class MatchRecord
 
             try
             {
-                // ±£´æÄ¿Â¼ÖĞµÄ JSON ÎÄ¼şÂ·¾¶
+                // ä¿å­˜ç›®å½•ä¸­çš„ JSON æ–‡ä»¶è·¯å¾„
                 string[] files = Directory.GetFiles(directory, "*.json");
                 foreach (string file in files)
                 {
@@ -126,28 +126,28 @@ public static class MatchRecord
             }
             catch (Exception exception)
             {
-                Debug.LogError("¶ÁÈ¡¶Ô¾ÖÁĞ±íÊ§°Ü£º" + exception.Message);
+                Debug.LogError("è¯»å–å¯¹å±€åˆ—è¡¨å¤±è´¥ï¼š" + exception.Message);
             }
 
             return names;
         }
     }
 
-    // ¸ù¾İÎÄ¼şÃû¶ÁÈ¡²¢»¹Ô­Ò»³¡¶Ô¾Ö
+    // æ ¹æ®æ–‡ä»¶åè¯»å–å¹¶è¿˜åŸä¸€åœºå¯¹å±€
     public static List<Board> ReadMatch(string name)
     {
-        // ¶ÁÈ¡µ½µÄÆåÅÌ×´Ì¬ÁĞ±í
+        // è¯»å–åˆ°çš„æ£‹ç›˜çŠ¶æ€åˆ—è¡¨
         List<Board> boards = new List<Board>();
         if (string.IsNullOrWhiteSpace(name))
         {
             return boards;
         }
 
-        // ¶Ô¾ÖÎÄ¼şµÄ±£´æÄ¿Â¼
+        // å¯¹å±€æ–‡ä»¶çš„ä¿å­˜ç›®å½•
         string directory = Path.Combine(Application.persistentDataPath, SaveFolderName);
-        // ½öÊ¹ÓÃÎÄ¼şÃû£¬±ÜÃâ´«ÈëÂ·¾¶·ÃÎÊ±£´æÄ¿Â¼ÒÔÍâµÄÎÄ¼ş
+        // ä»…ä½¿ç”¨æ–‡ä»¶åï¼Œé¿å…ä¼ å…¥è·¯å¾„è®¿é—®ä¿å­˜ç›®å½•ä»¥å¤–çš„æ–‡ä»¶
         string fileName = Path.GetFileNameWithoutExtension(name) + ".json";
-        // ¶Ô¾ÖÎÄ¼şµÄÍêÕûÂ·¾¶
+        // å¯¹å±€æ–‡ä»¶çš„å®Œæ•´è·¯å¾„
         string filePath = Path.Combine(directory, fileName);
         if (!File.Exists(filePath))
         {
@@ -156,7 +156,7 @@ public static class MatchRecord
 
         try
         {
-            // ÎÄ¼şÖĞµÄĞòÁĞ»¯¶Ô¾ÖÊı¾İ
+            // æ–‡ä»¶ä¸­çš„åºåˆ—åŒ–å¯¹å±€æ•°æ®
             MatchData matchData = JsonUtility.FromJson<MatchData>(File.ReadAllText(filePath, Encoding.UTF8));
             if (matchData == null || matchData.boards == null)
             {
@@ -171,7 +171,7 @@ public static class MatchRecord
                     continue;
                 }
 
-                // »¹Ô­ºóµÄ¶şÎ¬Æå×ÓÊı×é
+                // è¿˜åŸåçš„äºŒç»´æ£‹å­æ•°ç»„
                 PieceType[,] pieces = new PieceType[boardData.rows, boardData.columns];
                 for (int row = 0; row < boardData.rows; row++)
                 {
@@ -186,7 +186,7 @@ public static class MatchRecord
         }
         catch (Exception exception)
         {
-            Debug.LogError("¶ÁÈ¡¶Ô¾ÖÊ§°Ü£º" + exception.Message);
+            Debug.LogError("è¯»å–å¯¹å±€å¤±è´¥ï¼š" + exception.Message);
         }
 
         return boards;

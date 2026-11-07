@@ -27,7 +27,7 @@ public class Square : MonoBehaviour
     {
         spriteRenderer.sprite = SpriteManager.Instance.GetPiece(pieceType);
     }
-    // µã»÷Æå¸ñÊ±½«×ø±ê½»¸øÆåÅÌ¿ØÖÆÆ÷´¦Àí
+    // ç‚¹å‡»æ£‹æ ¼æ—¶å°†åæ ‡äº¤ç»™æ£‹ç›˜æ§åˆ¶å™¨å¤„ç†
     public void OnMouseDown()
     {
         if (squareController != null)

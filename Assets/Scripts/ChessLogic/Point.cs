@@ -9,7 +9,7 @@ public struct Point : IEquatable<Point>
     public int y;
     public Point(int x, int y)
     {
-        // 保留原始坐标，由棋盘规则校验坐标范围
+        // 淇濈暀鍘熷鍧愭爣锛岀敱妫嬬洏瑙勫垯鏍￠獙鍧愭爣鑼冨洿
         this.x = x;
         this.y = y;
     }

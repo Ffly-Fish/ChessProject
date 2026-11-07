@@ -1,14 +1,14 @@
 using Unity.Netcode;
 using UnityEngine;
 
-// ¸ºÔğÍøÂçÍæ¼ÒÕóÓª·ÖÅäºÍ×ß×ÓÍ¬²½
+// è´Ÿè´£ç½‘ç»œç©å®¶é˜µè¥åˆ†é…å’Œèµ°å­åŒæ­¥
 public class RoomHost : NetworkBehaviour
 {
-    // Íæ¼ÒÕóÓª£¬Áã±íÊ¾ºì·½£¬Ò»±íÊ¾ºÚ·½£¬¸ºÊı±íÊ¾Î´·ÖÅä
+    // ç©å®¶é˜µè¥ï¼Œé›¶è¡¨ç¤ºçº¢æ–¹ï¼Œä¸€è¡¨ç¤ºé»‘æ–¹ï¼Œè´Ÿæ•°è¡¨ç¤ºæœªåˆ†é…
     private readonly NetworkVariable<int> playerSide = new NetworkVariable<int>(
         -1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    // ¶©ÔÄÍæ¼ÒÕóÓª¸üĞÂ²¢·ÖÅä·şÎñÆ÷²àÕóÓª
+    // è®¢é˜…ç©å®¶é˜µè¥æ›´æ–°å¹¶åˆ†é…æœåŠ¡å™¨ä¾§é˜µè¥
     public override void OnNetworkSpawn()
     {
         playerSide.OnValueChanged += OnPlayerSideChanged;
@@ -20,13 +20,13 @@ public class RoomHost : NetworkBehaviour
         ApplyLocalPlayerSide();
     }
 
-    // È¡ÏûÍæ¼ÒÕóÓª¸üĞÂ¶©ÔÄ
+    // å–æ¶ˆç©å®¶é˜µè¥æ›´æ–°è®¢é˜…
     public override void OnNetworkDespawn()
     {
         playerSide.OnValueChanged -= OnPlayerSideChanged;
     }
 
-    // ¿Í»§¶ËÉêÇë×ß×Ó£¬ÓÉ·şÎñÆ÷Ğ£Ñéºó¹ã²¥¸ø¶Ô¾ÖË«·½
+    // å®¢æˆ·ç«¯ç”³è¯·èµ°å­ï¼Œç”±æœåŠ¡å™¨æ ¡éªŒåå¹¿æ’­ç»™å¯¹å±€åŒæ–¹
     public bool RequestMove(Point from, Point destination)
     {
         if (!IsSpawned || !IsOwner || playerSide.Value < 0
@@ -39,12 +39,12 @@ public class RoomHost : NetworkBehaviour
         return true;
     }
 
-    // Îª·¿Ö÷Ëæ»ú·ÖÅäÕóÓª£¬Îª¼ÓÈëÕß·ÖÅäÁíÒ»·½
+    // ä¸ºæˆ¿ä¸»éšæœºåˆ†é…é˜µè¥ï¼Œä¸ºåŠ å…¥è€…åˆ†é…å¦ä¸€æ–¹
     private void AssignPlayerSide()
     {
         if (NetworkManager.ConnectedClientsIds.Count > 2)
         {
-            Debug.LogWarning("·¿¼ä½öÖ§³ÖÁ½ÃûÍæ¼Ò¡£", this);
+            Debug.LogWarning("æˆ¿é—´ä»…æ”¯æŒä¸¤åç©å®¶ã€‚", this);
             return;
         }
 
@@ -54,7 +54,7 @@ public class RoomHost : NetworkBehaviour
             return;
         }
 
-        // »ñÈ¡·¿Ö÷Íæ¼Ò¶ÔÏó¼°ÆäÒÑ·ÖÅäÕóÓª
+        // è·å–æˆ¿ä¸»ç©å®¶å¯¹è±¡åŠå…¶å·²åˆ†é…é˜µè¥
         if (NetworkManager.ConnectedClients.TryGetValue(NetworkManager.ServerClientId, out NetworkClient hostClient)
             && hostClient.PlayerObject != null)
         {
@@ -66,16 +66,16 @@ public class RoomHost : NetworkBehaviour
             }
         }
 
-        Debug.LogError("·¿Ö÷ÕóÓªÉĞÎ´·ÖÅä£¬ÎŞ·¨Îª¼ÓÈëÕß·ÖÅäÕóÓª¡£", this);
+        Debug.LogError("æˆ¿ä¸»é˜µè¥å°šæœªåˆ†é…ï¼Œæ— æ³•ä¸ºåŠ å…¥è€…åˆ†é…é˜µè¥ã€‚", this);
     }
 
-    // ´¦ÀíÕóÓªÍ¬²½²¢¸üĞÂ±¾µØÆåÅÌ¿ØÖÆÆ÷
+    // å¤„ç†é˜µè¥åŒæ­¥å¹¶æ›´æ–°æœ¬åœ°æ£‹ç›˜æ§åˆ¶å™¨
     private void OnPlayerSideChanged(int previousSide, int currentSide)
     {
         ApplyLocalPlayerSide();
     }
 
-    // ½«±¾µØÓµÓĞÕßµÄÕóÓª½»¸ø³¡¾°ÆåÅÌ¿ØÖÆÆ÷
+    // å°†æœ¬åœ°æ‹¥æœ‰è€…çš„é˜µè¥äº¤ç»™åœºæ™¯æ£‹ç›˜æ§åˆ¶å™¨
     private void ApplyLocalPlayerSide()
     {
         if (!IsOwner || playerSide.Value < 0)
@@ -86,14 +86,14 @@ public class RoomHost : NetworkBehaviour
         BoardController boardController = FindObjectOfType<BoardController>();
         if (boardController == null)
         {
-            Debug.LogError("³¡¾°ÖĞÎ´ÕÒµ½ BoardController¡£", this);
+            Debug.LogError("åœºæ™¯ä¸­æœªæ‰¾åˆ° BoardControllerã€‚", this);
             return;
         }
 
         boardController.SetNetworkPlayer(this, playerSide.Value == 0);
     }
 
-    // Ğ£Ñé×ß·¨²¢ÔÚ·şÎñÆ÷ÆåÅÌÓ¦ÓÃºó¹ã²¥×ø±ê
+    // æ ¡éªŒèµ°æ³•å¹¶åœ¨æœåŠ¡å™¨æ£‹ç›˜åº”ç”¨åå¹¿æ’­åæ ‡
     [ServerRpc]
     private void RequestMoveServerRpc(int fromRow, int fromColumn, int toRow, int toColumn,
         ServerRpcParams rpcParams = default)
@@ -103,7 +103,7 @@ public class RoomHost : NetworkBehaviour
             return;
         }
 
-        // »ñÈ¡³¡¾°ÆåÅÌ²¢°´Íæ¼ÒÕóÓªĞ£Ñé¡¢Ö´ĞĞ×ß·¨
+        // è·å–åœºæ™¯æ£‹ç›˜å¹¶æŒ‰ç©å®¶é˜µè¥æ ¡éªŒã€æ‰§è¡Œèµ°æ³•
         BoardController boardController = FindObjectOfType<BoardController>();
         bool moverIsRed = playerSide.Value == 0;
         Point from = new Point(fromRow, fromColumn);
@@ -116,7 +116,7 @@ public class RoomHost : NetworkBehaviour
         BroadcastMoveClientRpc(fromRow, fromColumn, toRow, toColumn, moverIsRed);
     }
 
-    // ½«ÒÑĞ£ÑéµÄ×ß·¨¹ã²¥µ½ÆäËû¿Í»§¶ËÆåÅÌ
+    // å°†å·²æ ¡éªŒçš„èµ°æ³•å¹¿æ’­åˆ°å…¶ä»–å®¢æˆ·ç«¯æ£‹ç›˜
     [ClientRpc]
     private void BroadcastMoveClientRpc(int fromRow, int fromColumn, int toRow, int toColumn, bool moverIsRed)
     {
@@ -125,13 +125,13 @@ public class RoomHost : NetworkBehaviour
             return;
         }
 
-        // ÔÚ¿Í»§¶Ë³¡¾°ÆåÅÌÓ¦ÓÃ·şÎñÆ÷¹ã²¥µÄ×ß·¨
+        // åœ¨å®¢æˆ·ç«¯åœºæ™¯æ£‹ç›˜åº”ç”¨æœåŠ¡å™¨å¹¿æ’­çš„èµ°æ³•
         BoardController boardController = FindObjectOfType<BoardController>();
         Point from = new Point(fromRow, fromColumn);
         Point destination = new Point(toRow, toColumn);
         if (boardController == null || !boardController.ApplyNetworkMove(from, destination, moverIsRed))
         {
-            Debug.LogError("¿Í»§¶ËÆåÅÌÎ´ÄÜÓ¦ÓÃ·şÎñÆ÷¹ã²¥µÄ×ß·¨¡£", this);
+            Debug.LogError("å®¢æˆ·ç«¯æ£‹ç›˜æœªèƒ½åº”ç”¨æœåŠ¡å™¨å¹¿æ’­çš„èµ°æ³•ã€‚", this);
         }
     }
 }

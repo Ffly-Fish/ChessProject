@@ -4,30 +4,30 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// ÏÔÊ¾ÒÑ±£´æ¶Ô¾ÖÁĞ±í
+// æ˜¾ç¤ºå·²ä¿å­˜å¯¹å±€åˆ—è¡¨
 public class SearchMatch : MonoBehaviour
 {
-    // ¶Ô¾ÖÁĞ±íÌõÄ¿Ô¤ÖÆÌå
+    // å¯¹å±€åˆ—è¡¨æ¡ç›®é¢„åˆ¶ä½“
     [SerializeField]
     private GameObject MatchFile;
 
-    // ¸ù¾İÒÑ±£´æµÄ¶Ô¾Ö´´½¨ÁĞ±íÌõÄ¿
+    // æ ¹æ®å·²ä¿å­˜çš„å¯¹å±€åˆ›å»ºåˆ—è¡¨æ¡ç›®
     void Start()
     {
         if (MatchFile == null)
         {
-            Debug.LogError("¶Ô¾ÖÁĞ±íÌõÄ¿Ô¤ÖÆÌåÎ´ÉèÖÃ¡£", this);
+            Debug.LogError("å¯¹å±€åˆ—è¡¨æ¡ç›®é¢„åˆ¶ä½“æœªè®¾ç½®ã€‚", this);
             return;
         }
 
-        // ÒÑ±£´æ¶Ô¾ÖµÄÎÄ¼şÃûÁĞ±í
+        // å·²ä¿å­˜å¯¹å±€çš„æ–‡ä»¶ååˆ—è¡¨
         List<string> fileNames = MatchRecord.ReadLibrary;
         foreach (string fileName in fileNames)
         {
-            // ´´½¨²¢¹ÒÔØ¶Ô¾ÖÁĞ±íÌõÄ¿
+            // åˆ›å»ºå¹¶æŒ‚è½½å¯¹å±€åˆ—è¡¨æ¡ç›®
             GameObject matchFile = Instantiate(MatchFile, transform);
 
-            // ÉèÖÃÌõÄ¿ÖĞµÄÎÄ±¾ÄÚÈİ
+            // è®¾ç½®æ¡ç›®ä¸­çš„æ–‡æœ¬å†…å®¹
             TextMeshProUGUI text = matchFile.GetComponentInChildren<TextMeshProUGUI>();
             if (text != null)
             {
@@ -35,10 +35,10 @@ public class SearchMatch : MonoBehaviour
             }
             else
             {
-                Debug.LogError("¶Ô¾ÖÁĞ±íÌõÄ¿ÖĞÎ´ÕÒµ½ Text ×é¼ş¡£", matchFile);
+                Debug.LogError("å¯¹å±€åˆ—è¡¨æ¡ç›®ä¸­æœªæ‰¾åˆ° Text ç»„ä»¶ã€‚", matchFile);
             }
 
-            // ÉèÖÃÌõÄ¿°´Å¥¶ÔÓ¦µÄ¶Ô¾ÖÎÄ¼şÃû
+            // è®¾ç½®æ¡ç›®æŒ‰é’®å¯¹åº”çš„å¯¹å±€æ–‡ä»¶å
             BtnController button = matchFile.GetComponentInChildren<BtnController>();
             if (button != null)
             {
@@ -47,7 +47,7 @@ public class SearchMatch : MonoBehaviour
             }
             else
             {
-                Debug.LogError("¶Ô¾ÖÁĞ±íÌõÄ¿ÖĞÎ´ÕÒµ½ BtnController ×é¼ş¡£", matchFile);
+                Debug.LogError("å¯¹å±€åˆ—è¡¨æ¡ç›®ä¸­æœªæ‰¾åˆ° BtnController ç»„ä»¶ã€‚", matchFile);
             }
         }
     }

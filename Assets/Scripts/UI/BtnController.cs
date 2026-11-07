@@ -1,34 +1,34 @@
 using System.Collections;
 using UnityEngine;
 
-// °´Å¥¿ØÖÆÆ÷
+// æŒ‰é’®æ§åˆ¶å™¨
 public class BtnController : MonoBehaviour
 {
-    // °´Å¥µã»÷ºó´ò¿ªµÄ²Ëµ¥Ãû³Æ
-    public string nextUIName = "·µ»Ø";
+    // æŒ‰é’®ç‚¹å‡»åæ‰“å¼€çš„èœå•åç§°
+    public string nextUIName = "è¿”å›";
 
-    // µã»÷Ê±ÊÇ·ñ½«ºì·½ÉèÖÃÎªÈËÀà¿ØÖÆ
+    // ç‚¹å‡»æ—¶æ˜¯å¦å°†çº¢æ–¹è®¾ç½®ä¸ºäººç±»æ§åˆ¶
     public bool setRedHuman;
 
-    // µã»÷Ê±ÊÇ·ñ½«ºì·½ÉèÖÃÎªµçÄÔ¿ØÖÆ
+    // ç‚¹å‡»æ—¶æ˜¯å¦å°†çº¢æ–¹è®¾ç½®ä¸ºç”µè„‘æ§åˆ¶
     public bool setRedAI;
 
-    // µã»÷Ê±ÊÇ·ñ½«ºÚ·½ÉèÖÃÎªÈËÀà¿ØÖÆ
+    // ç‚¹å‡»æ—¶æ˜¯å¦å°†é»‘æ–¹è®¾ç½®ä¸ºäººç±»æ§åˆ¶
     public bool setBlackHuman;
 
-    // µã»÷Ê±ÊÇ·ñ½«ºÚ·½ÉèÖÃÎªµçÄÔ¿ØÖÆ
+    // ç‚¹å‡»æ—¶æ˜¯å¦å°†é»‘æ–¹è®¾ç½®ä¸ºç”µè„‘æ§åˆ¶
     public bool setBlackAI;
 
-    // µã»÷Ê±ÊÇ·ñÊ¹ÓÃ¼«´ó¼«Ğ¡»¯Ëã·¨
+    // ç‚¹å‡»æ—¶æ˜¯å¦ä½¿ç”¨æå¤§æå°åŒ–ç®—æ³•
     public bool setMinimaxAlgorithm;
 
-    // µã»÷Ê±ÊÇ·ñÊ¹ÓÃÇ¿»¯Ñ§Ï°Ëã·¨
+    // ç‚¹å‡»æ—¶æ˜¯å¦ä½¿ç”¨å¼ºåŒ–å­¦ä¹ ç®—æ³•
     public bool setReinforcementLearningAlgorithm;
 
     public bool setFileName;
     public string fileName;
 
-    // ³õÊ¼»¯°´Å¥µã»÷ÊÂ¼ş
+    // åˆå§‹åŒ–æŒ‰é’®ç‚¹å‡»äº‹ä»¶
     void Start()
     {
         transform.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
@@ -48,47 +48,47 @@ public class BtnController : MonoBehaviour
             if (setFileName)
                 SetFileName();
 
-            if (nextUIName == "·µ»Ø")
+            if (nextUIName == "è¿”å›")
                 UIManager.Instance.GoBack();
             else
                 UIManager.Instance.OpenMenu(nextUIName);
         });
     }
 
-    // ½«ºì·½ÉèÖÃÎªÈËÀà¿ØÖÆ
+    // å°†çº¢æ–¹è®¾ç½®ä¸ºäººç±»æ§åˆ¶
     private void SetRedHuman()
     {
         UIManager.gameInfo.isRedHuman = true;
     }
 
-    // ½«ºì·½ÉèÖÃÎªµçÄÔ¿ØÖÆ
+    // å°†çº¢æ–¹è®¾ç½®ä¸ºç”µè„‘æ§åˆ¶
     private void SetRedAI()
     {
         UIManager.gameInfo.isRedHuman = false;
     }
 
-    // ½«ºÚ·½ÉèÖÃÎªÈËÀà¿ØÖÆ
+    // å°†é»‘æ–¹è®¾ç½®ä¸ºäººç±»æ§åˆ¶
     private void SetBlackHuman()
     {
         UIManager.gameInfo.isBlackHuman = true;
     }
 
-    // ½«ºÚ·½ÉèÖÃÎªµçÄÔ¿ØÖÆ
+    // å°†é»‘æ–¹è®¾ç½®ä¸ºç”µè„‘æ§åˆ¶
     private void SetBlackAI()
     {
         UIManager.gameInfo.isBlackHuman = false;
     }
 
-    // ½« AI ÉèÖÃÎª¼«´ó¼«Ğ¡»¯Ëã·¨
+    // å°† AI è®¾ç½®ä¸ºæå¤§æå°åŒ–ç®—æ³•
     private void SetMinimaxAlgorithm()
     {
-        UIManager.gameInfo.AIType = AIType.¼«´ó¼«Ğ¡»¯Ëã·¨;
+        UIManager.gameInfo.AIType = AIType.æå¤§æå°åŒ–ç®—æ³•;
     }
 
-    // ½« AI ÉèÖÃÎªÇ¿»¯Ñ§Ï°Ëã·¨
+    // å°† AI è®¾ç½®ä¸ºå¼ºåŒ–å­¦ä¹ ç®—æ³•
     private void SetReinforcementLearningAlgorithm()
     {
-        UIManager.gameInfo.AIType = AIType.Ç¿»¯Ñ§Ï°Ëã·¨;
+        UIManager.gameInfo.AIType = AIType.å¼ºåŒ–å­¦ä¹ ç®—æ³•;
     }
 
     private void SetFileName()

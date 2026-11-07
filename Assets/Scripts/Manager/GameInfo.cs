@@ -6,6 +6,6 @@ public class GameInfo
 {
     public bool isRedHuman = true;
     public bool isBlackHuman = true;
-    public AIType AIType=AIType.¼«´ó¼«Ğ¡»¯Ëã·¨;
+    public AIType AIType=AIType.æå¤§æå°åŒ–ç®—æ³•;
     public string fileName;
 }

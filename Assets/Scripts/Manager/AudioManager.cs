@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ¹ÜÀí±³¾°ÒôÀÖÓëÒôĞ§¡£
+/// ç®¡ç†èƒŒæ™¯éŸ³ä¹ä¸éŸ³æ•ˆã€‚
 /// </summary>
 public class AudioManager : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
             return instance;
         }
     }
-    /// <summary>¿ÉÍ¨¹ıÃû³Æ²éÕÒ²¢²¥·ÅµÄÒôÆµÁĞ±í¡£</summary>
+    /// <summary>å¯é€šè¿‡åç§°æŸ¥æ‰¾å¹¶æ’­æ”¾çš„éŸ³é¢‘åˆ—è¡¨ã€‚</summary>
     [SerializeField]
     private List<AudioInfo> audioInfos = new List<AudioInfo>();
     private AudioSource musicSource;
@@ -68,7 +68,7 @@ public class AudioManager : MonoBehaviour
         return source;
     }
 
-    /// <summary>¸ù¾İÃû³Æ²¥·Å±³¾°ÒôÀÖ£»Í¬Ò»Ê×ÒôÀÖÕıÔÚ²¥·ÅÊ±²»»áÖØĞÂ¿ªÊ¼¡£</summary>
+    /// <summary>æ ¹æ®åç§°æ’­æ”¾èƒŒæ™¯éŸ³ä¹ï¼›åŒä¸€é¦–éŸ³ä¹æ­£åœ¨æ’­æ”¾æ—¶ä¸ä¼šé‡æ–°å¼€å§‹ã€‚</summary>
     public void PlayMusic(string audioName)
     {
         AudioClip clip = FindAudioClip(audioName);
@@ -80,14 +80,14 @@ public class AudioManager : MonoBehaviour
         musicSource.Play();
     }
 
-    /// <summary>Í£Ö¹±³¾°ÒôÀÖ¡£</summary>
+    /// <summary>åœæ­¢èƒŒæ™¯éŸ³ä¹ã€‚</summary>
     public void StopMusic()
     {
         musicSource.Stop();
         musicSource.clip = null;
     }
 
-    /// <summary>¸ù¾İÃû³Æ²¥·ÅÒôĞ§£¬¿ÉÍ¨¹ı volumeScale µ÷Õûµ¥´Î²¥·ÅÒôÁ¿¡£</summary>
+    /// <summary>æ ¹æ®åç§°æ’­æ”¾éŸ³æ•ˆï¼Œå¯é€šè¿‡ volumeScale è°ƒæ•´å•æ¬¡æ’­æ”¾éŸ³é‡ã€‚</summary>
     public void PlaySfx(string audioName, float volumeScale = 1f)
     {
         AudioClip clip = FindAudioClip(audioName);
@@ -97,7 +97,7 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(clip, Mathf.Clamp01(volumeScale) * sfxVolume);
     }
 
-    /// <summary>¸ù¾İÃû³Æ´ÓÒôÆµÁĞ±íÖĞ²éÕÒÒôÆµÆ¬¶Î¡£</summary>
+    /// <summary>æ ¹æ®åç§°ä»éŸ³é¢‘åˆ—è¡¨ä¸­æŸ¥æ‰¾éŸ³é¢‘ç‰‡æ®µã€‚</summary>
     private AudioClip FindAudioClip(string audioName)
     {
         foreach (AudioInfo audioInfo in audioInfos)
@@ -108,24 +108,24 @@ public class AudioManager : MonoBehaviour
             }
         }
 
-        AudioClip resourceClip = Resources.Load<AudioClip>("AudioClips/" + audioName); // ResourcesÄ¿Â¼ÖĞµÄÒôÆµ
+        AudioClip resourceClip = Resources.Load<AudioClip>("AudioClips/" + audioName); // Resourcesç›®å½•ä¸­çš„éŸ³é¢‘
         if (resourceClip != null)
         {
             return resourceClip;
         }
 
-        Debug.LogWarning($"ÒôÆµÁĞ±íÖĞÎ´ÕÒµ½Ãû³ÆÎª¡°{audioName}¡±µÄÒôÆµ¡£", this);
+        Debug.LogWarning($"éŸ³é¢‘åˆ—è¡¨ä¸­æœªæ‰¾åˆ°åç§°ä¸ºâ€œ{audioName}â€çš„éŸ³é¢‘ã€‚", this);
         return null;
     }
 
-    /// <summary>ÉèÖÃ±³¾°ÒôÀÖÒôÁ¿¡£</summary>
+    /// <summary>è®¾ç½®èƒŒæ™¯éŸ³ä¹éŸ³é‡ã€‚</summary>
     public void SetMusicVolume(float volume)
     {
         musicVolume = Mathf.Clamp01(volume);
         musicSource.volume = musicVolume;
     }
 
-    /// <summary>ÉèÖÃÒôĞ§ÒôÁ¿¡£</summary>
+    /// <summary>è®¾ç½®éŸ³æ•ˆéŸ³é‡ã€‚</summary>
     public void SetSfxVolume(float volume)
     {
         sfxVolume = Mathf.Clamp01(volume);

@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-// Ìá¹©²¢ĞĞ¼«´ó¼«Ğ¡ËÑË÷Óë¾ÖÃæÆÀ¹À
+// æä¾›å¹¶è¡Œæå¤§æå°æœç´¢ä¸å±€é¢è¯„ä¼°
 public static class MinimaxAlgorithm
 {
     private const int SearchDepth = 6;
     private const int MateScore = 1000000;
     private const int InfinityScore = MateScore + SearchDepth;
 
-    // ËÑË÷ºòÑ¡¾ÖÃæ¼°Æä¾²Ì¬ÆÀ¹À·ÖÊı
+    // æœç´¢å€™é€‰å±€é¢åŠå…¶é™æ€è¯„ä¼°åˆ†æ•°
     private struct MoveCandidate
     {
         public Board board;
@@ -22,7 +22,7 @@ public static class MinimaxAlgorithm
         }
     }
 
-    // ²¢ĞĞËÑË÷µ±Ç°¾ÖÃæÏÂµÄ×î¼ÑÏÂÒ»²½Æå
+    // å¹¶è¡Œæœç´¢å½“å‰å±€é¢ä¸‹çš„æœ€ä½³ä¸‹ä¸€æ­¥æ£‹
     public static Board NextBoard(Board currentBoard)
     {
         if (currentBoard == null || currentBoard.board == null)
@@ -59,7 +59,7 @@ public static class MinimaxAlgorithm
         return candidates[bestIndex].board;
     }
 
-    // ¹«¿ªµÄ¾ÖÃæÆÀ¹À£¬Õı·Ö±íÊ¾ºì·½Õ¼ÓÅ£¬¸º·Ö±íÊ¾ºÚ·½Õ¼ÓÅ
+    // å…¬å¼€çš„å±€é¢è¯„ä¼°ï¼Œæ­£åˆ†è¡¨ç¤ºçº¢æ–¹å ä¼˜ï¼Œè´Ÿåˆ†è¡¨ç¤ºé»‘æ–¹å ä¼˜
     public static int Evaluate(Board currentBoard)
     {
         if (currentBoard == null || currentBoard.board == null)
@@ -75,7 +75,7 @@ public static class MinimaxAlgorithm
             for (int column = 0; column < currentBoard.board.GetLength(1); column++)
             {
                 PieceType piece = currentBoard.board[row, column];
-                if (piece == PieceType.¿Õ)
+                if (piece == PieceType.ç©º)
                 {
                     continue;
                 }
@@ -83,8 +83,8 @@ public static class MinimaxAlgorithm
                 bool isRedPiece = IsRedPiece(piece);
                 int pieceScore = GetPieceScore(piece, row, column);
                 score += isRedPiece ? pieceScore : -pieceScore;
-                hasRedGeneral |= piece == PieceType.ºì½«;
-                hasBlackGeneral |= piece == PieceType.ºÚ½«;
+                hasRedGeneral |= piece == PieceType.çº¢å°†;
+                hasBlackGeneral |= piece == PieceType.é»‘å°†;
             }
         }
 
@@ -100,7 +100,7 @@ public static class MinimaxAlgorithm
         return score;
     }
 
-    // Ê¹ÓÃ Alpha-Beta ¼ôÖ¦ËÑË÷ºóĞø¾ÖÃæ
+    // ä½¿ç”¨ Alpha-Beta å‰ªææœç´¢åç»­å±€é¢
     private static int Search(Board currentBoard, int depth, int alpha, int beta)
     {
         int evaluation = Evaluate(currentBoard);
@@ -145,7 +145,7 @@ public static class MinimaxAlgorithm
         return worstScore;
     }
 
-    // Éú³Éµ±Ç°ĞĞÆå·½µÄËùÓĞºÏ·¨ºó¼Ì¾ÖÃæ
+    // ç”Ÿæˆå½“å‰è¡Œæ£‹æ–¹çš„æ‰€æœ‰åˆæ³•åç»§å±€é¢
     private static List<MoveCandidate> GenerateMoves(Board currentBoard)
     {
         List<MoveCandidate> candidates = new List<MoveCandidate>();
@@ -154,7 +154,7 @@ public static class MinimaxAlgorithm
             for (int fromColumn = 0; fromColumn < currentBoard.board.GetLength(1); fromColumn++)
             {
                 PieceType piece = currentBoard.board[fromRow, fromColumn];
-                if (piece == PieceType.¿Õ || IsRedPiece(piece) != currentBoard.isRed)
+                if (piece == PieceType.ç©º || IsRedPiece(piece) != currentBoard.isRed)
                 {
                     continue;
                 }
@@ -177,7 +177,7 @@ public static class MinimaxAlgorithm
         return candidates;
     }
 
-    // ÓÅÏÈËÑË÷¾²Ì¬ÆÀ¹À½ÏºÃµÄ¾ÖÃæÒÔÌáÉı¼ôÖ¦Ğ§ÂÊ
+    // ä¼˜å…ˆæœç´¢é™æ€è¯„ä¼°è¾ƒå¥½çš„å±€é¢ä»¥æå‡å‰ªææ•ˆç‡
     private static void OrderMoves(List<MoveCandidate> candidates, bool isRed)
     {
         candidates.Sort((first, second) => isRed
@@ -185,7 +185,7 @@ public static class MinimaxAlgorithm
             : first.score.CompareTo(second.score));
     }
 
-    // ¼ÆËãµ¥Ã¶Æå×ÓµÄÎïÖÊ·ÖÓëÎ»ÖÃ·Ö
+    // è®¡ç®—å•æšæ£‹å­çš„ç‰©è´¨åˆ†ä¸ä½ç½®åˆ†
     private static int GetPieceScore(PieceType piece, int row, int column)
     {
         bool isRedPiece = IsRedPiece(piece);
@@ -194,35 +194,35 @@ public static class MinimaxAlgorithm
 
         switch (piece)
         {
-            case PieceType.ºì½«:
-            case PieceType.ºÚ½«:
+            case PieceType.çº¢å°†:
+            case PieceType.é»‘å°†:
                 return 10000;
-            case PieceType.ºì³µ:
-            case PieceType.ºÚ³µ:
+            case PieceType.çº¢è½¦:
+            case PieceType.é»‘è½¦:
                 return 900 + advancement * 2 + centrality * 3;
-            case PieceType.ºìÂí:
-            case PieceType.ºÚÂí:
+            case PieceType.çº¢é©¬:
+            case PieceType.é»‘é©¬:
                 return 450 + advancement * 2 + centrality * 8;
-            case PieceType.ºìÅÚ:
-            case PieceType.ºÚÅÚ:
+            case PieceType.çº¢ç‚®:
+            case PieceType.é»‘ç‚®:
                 return 450 + advancement + centrality * 5;
-            case PieceType.ºìÏó:
-            case PieceType.ºÚÏó:
-            case PieceType.ºìÊ¿:
-            case PieceType.ºÚÊ¿:
+            case PieceType.çº¢è±¡:
+            case PieceType.é»‘è±¡:
+            case PieceType.çº¢å£«:
+            case PieceType.é»‘å£«:
                 return 200;
-            case PieceType.ºì±ø:
+            case PieceType.çº¢å…µ:
                 return 100 + advancement * 10 + centrality * 4 + (row <= 4 ? 30 : 0);
-            case PieceType.ºÚ±ø:
+            case PieceType.é»‘å…µ:
                 return 100 + advancement * 10 + centrality * 4 + (row >= 5 ? 30 : 0);
             default:
                 return 0;
         }
     }
 
-    // ÅĞ¶ÏÆå×ÓÊÇ·ñÊôÓÚºì·½
+    // åˆ¤æ–­æ£‹å­æ˜¯å¦å±äºçº¢æ–¹
     private static bool IsRedPiece(PieceType piece)
     {
-        return piece >= PieceType.ºì±ø && piece <= PieceType.ºì½«;
+        return piece >= PieceType.çº¢å…µ && piece <= PieceType.çº¢å°†;
     }
 }

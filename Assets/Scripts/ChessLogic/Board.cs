@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Board
 {
     public PieceType[,] board{ get; private set; }
-    // µ±Ç°Ó¦ÓÉºì·½ÐÐÆåÊ±Îª true
+    // å½“å‰åº”ç”±çº¢æ–¹è¡Œæ£‹æ—¶ä¸º true
     public bool isRed { get; private set; }
 
     public Board()
@@ -14,7 +14,7 @@ public class Board
         InitializeStartingPosition();
     }
 
-    // ´´½¨Ö¸¶¨ÆåÅÌ²¢ÉèÖÃµ±Ç°ÐÐÆå·½
+    // åˆ›å»ºæŒ‡å®šæ£‹ç›˜å¹¶è®¾ç½®å½“å‰è¡Œæ£‹æ–¹
     public Board(PieceType[,] board, bool isRed = true)
     {
         this.board = board;
@@ -23,7 +23,7 @@ public class Board
 
     public bool NextBoard(Point from,Point to,out Board board)
     {
-        // Ä¬ÈÏ·µ»Ø¿Õ¾ÖÃæ£¬·Ç·¨×ß·¨²»»á²úÉúÐÂÆåÅÌ
+        // é»˜è®¤è¿”å›žç©ºå±€é¢ï¼Œéžæ³•èµ°æ³•ä¸ä¼šäº§ç”Ÿæ–°æ£‹ç›˜
         board = null;
         if (this.board == null || this.board.GetLength(0) != 10 || this.board.GetLength(1) != 9
             || !IsInsideBoard(from) || !IsInsideBoard(to) || (from.x == to.x && from.y == to.y))
@@ -31,23 +31,23 @@ public class Board
             return false;
         }
 
-        // »ñÈ¡ÆðµãÆå×ÓºÍÄ¿±êÎ»ÖÃÆå×Ó
+        // èŽ·å–èµ·ç‚¹æ£‹å­å’Œç›®æ ‡ä½ç½®æ£‹å­
         PieceType movingPiece = this.board[from.x, from.y];
         PieceType targetPiece = this.board[to.x, to.y];
-        if (movingPiece == PieceType.¿Õ || IsRedPiece(movingPiece) != this.isRed
+        if (movingPiece == PieceType.ç©º || IsRedPiece(movingPiece) != this.isRed
             || IsSameSide(movingPiece, targetPiece)
             || !IsMovementValid(from, to, movingPiece, targetPiece))
         {
             return false;
         }
 
-        // ÔÚ¸´ÖÆµÄÆåÅÌÉÏÖ´ÐÐ×ß×Ó
+        // åœ¨å¤åˆ¶çš„æ£‹ç›˜ä¸Šæ‰§è¡Œèµ°å­
         PieceType[,] nextPieces = (PieceType[,])this.board.Clone();
         nextPieces[to.x, to.y] = movingPiece;
-        nextPieces[from.x, from.y] = PieceType.¿Õ;
+        nextPieces[from.x, from.y] = PieceType.ç©º;
         Board nextBoard = new Board(nextPieces, !this.isRed);
 
-        // ²»ÔÊÐí×ß×Óºó¼º·½½«Ë§ÈÔ´¦ÓÚ±»½«×´Ì¬
+        // ä¸å…è®¸èµ°å­åŽå·±æ–¹å°†å¸…ä»å¤„äºŽè¢«å°†çŠ¶æ€
         if (nextBoard.IsInCheck(IsRedPiece(movingPiece)))
         {
             return false;
@@ -57,14 +57,14 @@ public class Board
         return true;
     }
 
-    // ÅÐ¶Ï×ø±êÊÇ·ñÎ»ÓÚÆåÅÌ·¶Î§ÄÚ
+    // åˆ¤æ–­åæ ‡æ˜¯å¦ä½äºŽæ£‹ç›˜èŒƒå›´å†…
     private bool IsInsideBoard(Point point)
     {
         return point.x >= 0 && point.x < this.board.GetLength(0)
             && point.y >= 0 && point.y < this.board.GetLength(1);
     }
 
-    // ÅÐ¶ÏÖ¸¶¨Æå×ÓµÄÒÆ¶¯·½Ê½ÊÇ·ñºÏ·¨
+    // åˆ¤æ–­æŒ‡å®šæ£‹å­çš„ç§»åŠ¨æ–¹å¼æ˜¯å¦åˆæ³•
     private bool IsMovementValid(Point from, Point to, PieceType piece, PieceType target)
     {
         int rowDelta = to.x - from.x;
@@ -75,55 +75,55 @@ public class Board
 
         switch (piece)
         {
-            case PieceType.ºì³µ:
-            case PieceType.ºÚ³µ:
+            case PieceType.çº¢è½¦:
+            case PieceType.é»‘è½¦:
                 return (rowDelta == 0 || columnDelta == 0) && CountPiecesBetween(from, to) == 0;
 
-            case PieceType.ºìÂí:
-            case PieceType.ºÚÂí:
+            case PieceType.çº¢é©¬:
+            case PieceType.é»‘é©¬:
                 if (rowDistance == 2 && columnDistance == 1)
                 {
-                    return this.board[from.x + System.Math.Sign(rowDelta), from.y] == PieceType.¿Õ;
+                    return this.board[from.x + System.Math.Sign(rowDelta), from.y] == PieceType.ç©º;
                 }
                 if (rowDistance == 1 && columnDistance == 2)
                 {
-                    return this.board[from.x, from.y + System.Math.Sign(columnDelta)] == PieceType.¿Õ;
+                    return this.board[from.x, from.y + System.Math.Sign(columnDelta)] == PieceType.ç©º;
                 }
                 return false;
 
-            case PieceType.ºìÏó:
-            case PieceType.ºÚÏó:
+            case PieceType.çº¢è±¡:
+            case PieceType.é»‘è±¡:
                 return rowDistance == 2 && columnDistance == 2
-                    && this.board[from.x + rowDelta / 2, from.y + columnDelta / 2] == PieceType.¿Õ
+                    && this.board[from.x + rowDelta / 2, from.y + columnDelta / 2] == PieceType.ç©º
                     && (isRed ? to.x >= 5 : to.x <= 4);
 
-            case PieceType.ºìÊ¿:
-            case PieceType.ºÚÊ¿:
+            case PieceType.çº¢å£«:
+            case PieceType.é»‘å£«:
                 return rowDistance == 1 && columnDistance == 1 && IsInsidePalace(to, isRed);
 
-            case PieceType.ºì½«:
-            case PieceType.ºÚ½«:
-                if (columnDelta == 0 && target == (isRed ? PieceType.ºÚ½« : PieceType.ºì½«)
+            case PieceType.çº¢å°†:
+            case PieceType.é»‘å°†:
+                if (columnDelta == 0 && target == (isRed ? PieceType.é»‘å°† : PieceType.çº¢å°†)
                     && CountPiecesBetween(from, to) == 0)
                 {
                     return true;
                 }
                 return rowDistance + columnDistance == 1 && IsInsidePalace(to, isRed);
 
-            case PieceType.ºìÅÚ:
-            case PieceType.ºÚÅÚ:
+            case PieceType.çº¢ç‚®:
+            case PieceType.é»‘ç‚®:
                 if (rowDelta != 0 && columnDelta != 0)
                 {
                     return false;
                 }
                 int piecesBetween = CountPiecesBetween(from, to);
-                return target == PieceType.¿Õ ? piecesBetween == 0 : piecesBetween == 1;
+                return target == PieceType.ç©º ? piecesBetween == 0 : piecesBetween == 1;
 
-            case PieceType.ºì±ø:
+            case PieceType.çº¢å…µ:
                 return rowDelta == -1 && columnDelta == 0
                     || from.x <= 4 && rowDelta == 0 && columnDistance == 1;
 
-            case PieceType.ºÚ±ø:
+            case PieceType.é»‘å…µ:
                 return rowDelta == 1 && columnDelta == 0
                     || from.x >= 5 && rowDelta == 0 && columnDistance == 1;
 
@@ -132,7 +132,7 @@ public class Board
         }
     }
 
-    // Í³¼ÆÆðµãºÍÖÕµãÖ®¼äµÄÆå×ÓÊýÁ¿
+    // ç»Ÿè®¡èµ·ç‚¹å’Œç»ˆç‚¹ä¹‹é—´çš„æ£‹å­æ•°é‡
     private int CountPiecesBetween(Point from, Point to)
     {
         int rowStep = System.Math.Sign(to.x - from.x);
@@ -143,7 +143,7 @@ public class Board
 
         while (row != to.x || column != to.y)
         {
-            if (this.board[row, column] != PieceType.¿Õ)
+            if (this.board[row, column] != PieceType.ç©º)
             {
                 count++;
             }
@@ -154,36 +154,36 @@ public class Board
         return count;
     }
 
-    // ÅÐ¶ÏÎ»ÖÃÊÇ·ñÔÚÖ¸¶¨Ò»·½µÄ¾Å¹¬ÄÚ
+    // åˆ¤æ–­ä½ç½®æ˜¯å¦åœ¨æŒ‡å®šä¸€æ–¹çš„ä¹å®«å†…
     private bool IsInsidePalace(Point point, bool isRed)
     {
         return point.y >= 3 && point.y <= 5 && (isRed ? point.x >= 7 : point.x <= 2);
     }
 
-    // ÅÐ¶ÏÆå×ÓÊÇ·ñÊôÓÚºì·½
+    // åˆ¤æ–­æ£‹å­æ˜¯å¦å±žäºŽçº¢æ–¹
     private bool IsRedPiece(PieceType piece)
     {
-        return piece >= PieceType.ºì±ø && piece <= PieceType.ºì½«;
+        return piece >= PieceType.çº¢å…µ && piece <= PieceType.çº¢å°†;
     }
 
-    // ÅÐ¶ÏÆå×ÓÊÇ·ñÊôÓÚºÚ·½
+    // åˆ¤æ–­æ£‹å­æ˜¯å¦å±žäºŽé»‘æ–¹
     private bool IsBlackPiece(PieceType piece)
     {
-        return piece >= PieceType.ºÚ±ø && piece <= PieceType.ºÚ½«;
+        return piece >= PieceType.é»‘å…µ && piece <= PieceType.é»‘å°†;
     }
 
-    // ÅÐ¶ÏÁ½¸öÆå×ÓÊÇ·ñÊôÓÚÍ¬Ò»·½
+    // åˆ¤æ–­ä¸¤ä¸ªæ£‹å­æ˜¯å¦å±žäºŽåŒä¸€æ–¹
     private bool IsSameSide(PieceType first, PieceType second)
     {
         return IsRedPiece(first) && IsRedPiece(second)
             || IsBlackPiece(first) && IsBlackPiece(second);
     }
 
-    // ÅÐ¶ÏÖ¸¶¨Ò»·½µÄ½«Ë§ÊÇ·ñ±»½«
-    // ÅÐ¶ÏÖ¸¶¨Ò»·½µÄ½«Ë§ÊÇ·ñ±»½«
+    // åˆ¤æ–­æŒ‡å®šä¸€æ–¹çš„å°†å¸…æ˜¯å¦è¢«å°†
+    // åˆ¤æ–­æŒ‡å®šä¸€æ–¹çš„å°†å¸…æ˜¯å¦è¢«å°†
     public bool IsInCheck(bool isRed)
     {
-        PieceType general = isRed ? PieceType.ºì½« : PieceType.ºÚ½«;
+        PieceType general = isRed ? PieceType.çº¢å°† : PieceType.é»‘å°†;
         int generalRow = -1;
         int generalColumn = -1;
 
@@ -204,7 +204,7 @@ public class Board
             }
         }
 
-        // Ã»ÓÐ½«Ë§µÄ¾ÖÃæ²»½øÐÐ½«¾ü¼ì²â
+        // æ²¡æœ‰å°†å¸…çš„å±€é¢ä¸è¿›è¡Œå°†å†›æ£€æµ‹
         if (generalRow < 0)
         {
             return false;
@@ -216,7 +216,7 @@ public class Board
             for (int column = 0; column < this.board.GetLength(1); column++)
             {
                 PieceType piece = this.board[row, column];
-                if (piece == PieceType.¿Õ || IsRedPiece(piece) == isRed)
+                if (piece == PieceType.ç©º || IsRedPiece(piece) == isRed)
                 {
                     continue;
                 }
@@ -232,7 +232,7 @@ public class Board
         return false;
     }
 
-    // ÅÐ¶Ïµ±Ç°ÐÐÆå·½ÊÇ·ñ¾øÉ±
+    // åˆ¤æ–­å½“å‰è¡Œæ£‹æ–¹æ˜¯å¦ç»æ€
     public bool IsCheckmate()
     {
         if (this.board == null)
@@ -255,7 +255,7 @@ public class Board
             for (int fromColumn = 0; fromColumn < this.board.GetLength(1); fromColumn++)
             {
                 PieceType piece = this.board[fromRow, fromColumn];
-                if (piece == PieceType.¿Õ || IsRedPiece(piece) != this.isRed)
+                if (piece == PieceType.ç©º || IsRedPiece(piece) != this.isRed)
                 {
                     continue;
                 }
@@ -277,10 +277,10 @@ public class Board
         return true;
     }
 
-    // ÅÐ¶ÏÖ¸¶¨Ò»·½µÄ½«Ë§ÊÇ·ñÈÔÔÚÆåÅÌÉÏ
+    // åˆ¤æ–­æŒ‡å®šä¸€æ–¹çš„å°†å¸…æ˜¯å¦ä»åœ¨æ£‹ç›˜ä¸Š
     private bool HasGeneral(bool isRed)
     {
-        PieceType general = isRed ? PieceType.ºì½« : PieceType.ºÚ½«;
+        PieceType general = isRed ? PieceType.çº¢å°† : PieceType.é»‘å°†;
         foreach (PieceType piece in this.board)
         {
             if (piece == general)
@@ -292,56 +292,56 @@ public class Board
         return false;
     }
 
-    // °´ÖÐ¹úÏóÆå³õÊ¼Î»ÖÃ°Ú·ÅÆå×Ó
+    // æŒ‰ä¸­å›½è±¡æ£‹åˆå§‹ä½ç½®æ‘†æ”¾æ£‹å­
     private void InitializeStartingPosition()
     {
-        // ÏÈ½«ÆåÅÌËùÓÐÎ»ÖÃ³õÊ¼»¯Îª¿Õ
+        // å…ˆå°†æ£‹ç›˜æ‰€æœ‰ä½ç½®åˆå§‹åŒ–ä¸ºç©º
         for (int row = 0; row < board.GetLength(0); row++)
         {
             for (int column = 0; column < board.GetLength(1); column++)
             {
-                board[row, column] = PieceType.¿Õ;
+                board[row, column] = PieceType.ç©º;
             }
         }
 
-        // ºÚ·½µ×Ïß
-        board[0, 0] = PieceType.ºÚ³µ;
-        board[0, 1] = PieceType.ºÚÂí;
-        board[0, 2] = PieceType.ºÚÏó;
-        board[0, 3] = PieceType.ºÚÊ¿;
-        board[0, 4] = PieceType.ºÚ½«;
-        board[0, 5] = PieceType.ºÚÊ¿;
-        board[0, 6] = PieceType.ºÚÏó;
-        board[0, 7] = PieceType.ºÚÂí;
-        board[0, 8] = PieceType.ºÚ³µ;
+        // é»‘æ–¹åº•çº¿
+        board[0, 0] = PieceType.é»‘è½¦;
+        board[0, 1] = PieceType.é»‘é©¬;
+        board[0, 2] = PieceType.é»‘è±¡;
+        board[0, 3] = PieceType.é»‘å£«;
+        board[0, 4] = PieceType.é»‘å°†;
+        board[0, 5] = PieceType.é»‘å£«;
+        board[0, 6] = PieceType.é»‘è±¡;
+        board[0, 7] = PieceType.é»‘é©¬;
+        board[0, 8] = PieceType.é»‘è½¦;
 
-        // ºÚ·½ÅÚÎ»ºÍ±øÎ»
-        board[2, 1] = PieceType.ºÚÅÚ;
-        board[2, 7] = PieceType.ºÚÅÚ;
-        board[3, 0] = PieceType.ºÚ±ø;
-        board[3, 2] = PieceType.ºÚ±ø;
-        board[3, 4] = PieceType.ºÚ±ø;
-        board[3, 6] = PieceType.ºÚ±ø;
-        board[3, 8] = PieceType.ºÚ±ø;
+        // é»‘æ–¹ç‚®ä½å’Œå…µä½
+        board[2, 1] = PieceType.é»‘ç‚®;
+        board[2, 7] = PieceType.é»‘ç‚®;
+        board[3, 0] = PieceType.é»‘å…µ;
+        board[3, 2] = PieceType.é»‘å…µ;
+        board[3, 4] = PieceType.é»‘å…µ;
+        board[3, 6] = PieceType.é»‘å…µ;
+        board[3, 8] = PieceType.é»‘å…µ;
 
-        // ºì·½±øÎ»ºÍÅÚÎ»
-        board[6, 0] = PieceType.ºì±ø;
-        board[6, 2] = PieceType.ºì±ø;
-        board[6, 4] = PieceType.ºì±ø;
-        board[6, 6] = PieceType.ºì±ø;
-        board[6, 8] = PieceType.ºì±ø;
-        board[7, 1] = PieceType.ºìÅÚ;
-        board[7, 7] = PieceType.ºìÅÚ;
+        // çº¢æ–¹å…µä½å’Œç‚®ä½
+        board[6, 0] = PieceType.çº¢å…µ;
+        board[6, 2] = PieceType.çº¢å…µ;
+        board[6, 4] = PieceType.çº¢å…µ;
+        board[6, 6] = PieceType.çº¢å…µ;
+        board[6, 8] = PieceType.çº¢å…µ;
+        board[7, 1] = PieceType.çº¢ç‚®;
+        board[7, 7] = PieceType.çº¢ç‚®;
 
-        // ºì·½µ×Ïß
-        board[9, 0] = PieceType.ºì³µ;
-        board[9, 1] = PieceType.ºìÂí;
-        board[9, 2] = PieceType.ºìÏó;
-        board[9, 3] = PieceType.ºìÊ¿;
-        board[9, 4] = PieceType.ºì½«;
-        board[9, 5] = PieceType.ºìÊ¿;
-        board[9, 6] = PieceType.ºìÏó;
-        board[9, 7] = PieceType.ºìÂí;
-        board[9, 8] = PieceType.ºì³µ;
+        // çº¢æ–¹åº•çº¿
+        board[9, 0] = PieceType.çº¢è½¦;
+        board[9, 1] = PieceType.çº¢é©¬;
+        board[9, 2] = PieceType.çº¢è±¡;
+        board[9, 3] = PieceType.çº¢å£«;
+        board[9, 4] = PieceType.çº¢å°†;
+        board[9, 5] = PieceType.çº¢å£«;
+        board[9, 6] = PieceType.çº¢è±¡;
+        board[9, 7] = PieceType.çº¢é©¬;
+        board[9, 8] = PieceType.çº¢è½¦;
     }
 }

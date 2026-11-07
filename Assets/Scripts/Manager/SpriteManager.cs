@@ -25,86 +25,86 @@ public class SpriteManager : MonoBehaviour
         }
     }
 
-    [Header("¿ÕÆå×Ó")]
+    [Header("ç©ºæ£‹å­")]
     [SerializeField]
     private Sprite kong;
-    [Header("ºì±ø")]
+    [Header("çº¢å…µ")]
     [SerializeField]
     private Sprite redBing;
-    [Header("ºì³µ")]
+    [Header("çº¢è½¦")]
     [SerializeField]
     private Sprite redChe;
-    [Header("ºìÂí")]
+    [Header("çº¢é©¬")]
     [SerializeField]
     private Sprite redMa;
-    [Header("ºìÅÚ")]
+    [Header("çº¢ç‚®")]
     [SerializeField]
     private Sprite redPao;
-    [Header("ºìÏó")]
+    [Header("çº¢è±¡")]
     [SerializeField]
     private Sprite redXiang;
-    [Header("ºìÊ¿")]
+    [Header("çº¢å£«")]
     [SerializeField]
     private Sprite redShi;
-    [Header("ºì½«")]
+    [Header("çº¢å°†")]
     [SerializeField]
     private Sprite redJiang;
-    [Header("ºÚ±ø")]
+    [Header("é»‘å…µ")]
     [SerializeField]
     private Sprite blackBing;
-    [Header("ºÚ³µ")]
+    [Header("é»‘è½¦")]
     [SerializeField]
     private Sprite blackChe;
-    [Header("ºÚÂí")]
+    [Header("é»‘é©¬")]
     [SerializeField]
     private Sprite blackMa;
-    [Header("ºÚÅÚ")]
+    [Header("é»‘ç‚®")]
     [SerializeField]
     private Sprite blackPao;
-    [Header("ºÚÏó")]
+    [Header("é»‘è±¡")]
     [SerializeField]
     private Sprite blackXiang;
-    [Header("ºÚÊ¿")]
+    [Header("é»‘å£«")]
     [SerializeField]
     private Sprite blackShi;
-    [Header("ºÚ½«")]
+    [Header("é»‘å°†")]
     [SerializeField]
     private Sprite blackJiang;
 
-    // ¸ù¾İÆå×ÓÀàĞÍ·µ»Ø¶ÔÓ¦µÄ¾«Áé
+    // æ ¹æ®æ£‹å­ç±»å‹è¿”å›å¯¹åº”çš„ç²¾çµ
     public Sprite GetPiece(PieceType pieceType)
     {
         switch (pieceType)
         {
-            case PieceType.¿Õ:
+            case PieceType.ç©º:
                 return kong;
-            case PieceType.ºì±ø:
+            case PieceType.çº¢å…µ:
                 return redBing;
-            case PieceType.ºì³µ:
+            case PieceType.çº¢è½¦:
                 return redChe;
-            case PieceType.ºìÂí:
+            case PieceType.çº¢é©¬:
                 return redMa;
-            case PieceType.ºìÅÚ:
+            case PieceType.çº¢ç‚®:
                 return redPao;
-            case PieceType.ºìÏó:
+            case PieceType.çº¢è±¡:
                 return redXiang;
-            case PieceType.ºìÊ¿:
+            case PieceType.çº¢å£«:
                 return redShi;
-            case PieceType.ºì½«:
+            case PieceType.çº¢å°†:
                 return redJiang;
-            case PieceType.ºÚ±ø:
+            case PieceType.é»‘å…µ:
                 return blackBing;
-            case PieceType.ºÚ³µ:
+            case PieceType.é»‘è½¦:
                 return blackChe;
-            case PieceType.ºÚÂí:
+            case PieceType.é»‘é©¬:
                 return blackMa;
-            case PieceType.ºÚÅÚ:
+            case PieceType.é»‘ç‚®:
                 return blackPao;
-            case PieceType.ºÚÏó:
+            case PieceType.é»‘è±¡:
                 return blackXiang;
-            case PieceType.ºÚÊ¿:
+            case PieceType.é»‘å£«:
                 return blackShi;
-            case PieceType.ºÚ½«:
+            case PieceType.é»‘å°†:
                 return blackJiang;
             default:
                 return null;
